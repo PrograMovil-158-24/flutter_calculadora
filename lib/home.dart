@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -29,15 +30,19 @@ class _HomeState extends State<Home> {
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.start, children: [
               TextField(
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Número 1',
-                ),
-                keyboardType: TextInputType.number,
-                onChanged: (value) {
-                  primerNumero = double.parse(value);
-                },
-              ),
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Número 1',
+                  ),
+                  keyboardType: TextInputType.number,
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d*$')),
+                  ],
+                  onChanged: (value) {
+                    if (double.tryParse(value) != null) {
+                      primerNumero = double.parse(value);
+                    }
+                  }),
               const Divider(),
               TextField(
                 decoration: const InputDecoration(
@@ -45,8 +50,14 @@ class _HomeState extends State<Home> {
                   labelText: 'Número 2',
                 ),
                 keyboardType: TextInputType.number,
+                keyboardAppearance: Brightness.dark,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d*$')),
+                ],
                 onChanged: (value) {
-                  segundoNumero = double.parse(value);
+                  if (double.tryParse(value) != null) {
+                    segundoNumero = double.parse(value);
+                  }
                 },
               ),
               const Divider(),
@@ -68,3 +79,4 @@ class _HomeState extends State<Home> {
             ])));
   }
 }
+//NAVEGACION
